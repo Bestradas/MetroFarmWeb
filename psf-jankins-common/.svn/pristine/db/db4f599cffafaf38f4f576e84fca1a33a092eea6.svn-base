@@ -1,0 +1,11 @@
+package co.jankins.psf.common.global;
+
+import co.janker.dto.objresponse.ObjectResponse;
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.user.User;
+
+public class GlobalUtils {
+	
+	public static final Class[] dtos={ObjectSend.class,User.class,ObjectResponse.class};
+
+}

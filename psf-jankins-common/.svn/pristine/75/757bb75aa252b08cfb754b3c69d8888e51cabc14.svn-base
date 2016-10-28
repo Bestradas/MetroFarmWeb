@@ -1,0 +1,14 @@
+package co.jankins.psf.common.operations;
+
+public class Operations {
+	
+	//USER_SERVICE
+	public static final String CREATE_USER="CREATE_USER";
+	public static final String DELETE_USER="DELETE_USER";
+	
+	//PROFILE_SERVICE
+	public static final String CREATE_PROFILE="CREATE_PROFILE";
+	public static final String DELETE_PROFILE="DELETE_PROFILE";
+	
+
+}

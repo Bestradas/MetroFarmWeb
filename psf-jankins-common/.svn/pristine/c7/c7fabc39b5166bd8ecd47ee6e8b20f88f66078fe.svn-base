@@ -1,0 +1,34 @@
+package co.jankins.psf.common.services;
+
+public class Services {
+	
+	public static final String USER_SERVICE="USER_SERVICE";
+	
+	public static final String PROFILE_SERVICE="PROFILE_SERVICE";
+	
+	public static final String EQUIPMENT_SERVICE="EQUIPMENT_SERVICE";
+	
+	public static final String CALIBRATION_SERVICE="CALIBRATION_SERVICE";
+	
+	public static final String MAINTENANCE_SERVICE="MAINTENANCE_SERVICE";
+	
+	public static final String MAINTENANCE_GENERAL_SERVICE="MAINTENANCE_GENERAL_SERVICE";
+	
+	public static final String QUALIFICATION_SERVICE="QUALIFICATION_SERVICE";
+	
+	public static final String REPORT_SERVICE="REPORT_SERVICE";
+	
+	public static final String SCHEDULE_SERVICE="SCHEDULE_SERVICE";
+	
+	public static final String CHANGE_REGISTER_SERVICE="CHANGE_REGISTER_SERVICE";
+	
+	public static final String EMAIL_SERVICE="EMAIL_SERVICE";
+	
+	public static final String SYNCHRONICE_SERVICE="EMAIL_SERVICE";
+	
+	public static final String NOTIFICATION_SERVICE="NOTIFICATION_SERVICE";
+	
+	
+	
+
+}

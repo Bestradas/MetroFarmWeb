@@ -1,0 +1,9 @@
+package co.jankins.psf.common.services;
+
+public class Services {
+	
+	public static final String USER_SERVICE="USER_SERVICE";
+	public static final String PROFILE_SERVICE="PROFILE_SERVICE";
+	
+
+}

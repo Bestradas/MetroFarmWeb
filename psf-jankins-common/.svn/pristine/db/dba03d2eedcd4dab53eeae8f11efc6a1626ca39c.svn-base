@@ -1,0 +1,22 @@
+package co.jankins.psf.common.util;
+
+import java.util.ArrayList;
+
+import co.janker.dto.objresponse.ObjectResponse;
+
+public class Utilities {
+	
+    public static Class getClassObjectResponse(ObjectResponse obj,Object remoteObject) {
+        Class clazz;
+        if (remoteObject instanceof ArrayList) {
+            obj.setRecords((ArrayList) remoteObject);
+            Class c = !((ArrayList) remoteObject).isEmpty() ? ((ArrayList) remoteObject).get(0).getClass() : null;
+            clazz = c != null ? c : remoteObject.getClass();
+        } else {
+            obj.setObj(remoteObject);
+            clazz = remoteObject.getClass();
+        }
+        return clazz;
+    }
+
+}
