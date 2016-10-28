@@ -1,0 +1,107 @@
+package com.co.farmatech.metrofarm.dto;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="Calibracion")
+public class DtoCalibracion {
+    
+	DtoEquipo equipo;
+	Proveedor proveedor;
+    String  division, exactitud, valMininmo, valMaximo,rangCalibracion,RangTrabajo;
+    Date fechaRegistro,proximaCalibracion,FechaEjecutada;
+    byte[] archivo;
+    BigDecimal Precio;
+    
+	public DtoEquipo getEquipo() {
+		return equipo;
+	}
+	@XmlElement(name="EquipoCalibracion")
+	public void setEquipo(DtoEquipo equipo) {
+		this.equipo = equipo;
+	}
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+	@XmlElement(name="ProveedorCalibracion")
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
+	}
+	public String getDivision() {
+		return division;
+	}
+	@XmlElement(name="Division")
+	public void setDivision(String division) {
+		this.division = division;
+	}
+	public String getExactitud() {
+		return exactitud;
+	}
+	public void setExactitud(String exactitud) {
+		this.exactitud = exactitud;
+	}
+	public String getValMininmo() {
+		return valMininmo;
+	}
+	public void setValMininmo(String valMininmo) {
+		this.valMininmo = valMininmo;
+	}
+	public String getValMaximo() {
+		return valMaximo;
+	}
+	public void setValMaximo(String valMaximo) {
+		this.valMaximo = valMaximo;
+	}
+	public String getRangCalibracion() {
+		return rangCalibracion;
+	}
+	public void setRangCalibracion(String rangCalibracion) {
+		this.rangCalibracion = rangCalibracion;
+	}
+	public String getRangTrabajo() {
+		return RangTrabajo;
+	}
+	public void setRangTrabajo(String rangTrabajo) {
+		RangTrabajo = rangTrabajo;
+	}
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+	public Date getProximaCalibracion() {
+		return proximaCalibracion;
+	}
+	public void setProximaCalibracion(Date proximaCalibracion) {
+		this.proximaCalibracion = proximaCalibracion;
+	}
+	public Date getFechaEjecutada() {
+		return FechaEjecutada;
+	}
+	public void setFechaEjecutada(Date fechaEjecutada) {
+		FechaEjecutada = fechaEjecutada;
+	}
+	public byte[] getArchivo() {
+		return archivo;
+	}
+	public void setArchivo(byte[] archivo) {
+		this.archivo = archivo;
+	}
+	public BigDecimal getPrecio() {
+		return Precio;
+	}
+	public void setPrecio(BigDecimal precio) {
+		Precio = precio;
+	}
+    
+    
+
+    
+    
+    
+}

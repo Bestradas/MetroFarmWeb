@@ -1,0 +1,117 @@
+package com.co.farmatech.metrofarm.dto;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class DtoMantenimiento {
+
+    String numFom, responsable, recibido,anomalias, labores, observaciones, proovedores;
+    BigDecimal Precio;
+    DtoEquipo equipo;
+    DtoUsuario registrado;
+    Date fechaRegistro,FechaProximo,fechaEjecutado;
+    Long tipoMant;
+
+	public String getNumFom() {
+		return numFom;
+	}
+	@XmlElement
+	public void setNumFom(String numFom) {
+		this.numFom = numFom;
+	}
+	public Long getTipoMant() {
+		return tipoMant;
+	}
+	@XmlElement
+	public void setTipoMant(Long tipoMant) {
+		this.tipoMant = tipoMant;
+	}
+	public String getResponsable() {
+		return responsable;
+	}
+	@XmlElement
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
+	public String getRecibido() {
+		return recibido;
+	}
+	@XmlElement
+	public void setRecibido(String recibido) {
+		this.recibido = recibido;
+	}
+	public String getAnomalias() {
+		return anomalias;
+	}
+	@XmlElement
+	public void setAnomalias(String anomalias) {
+		this.anomalias = anomalias;
+	}
+	public String getLabores() {
+		return labores;
+	}
+	@XmlElement
+	public void setLabores(String labores) {
+		this.labores = labores;
+	}
+	public String getObservaciones() {
+		return observaciones;
+	}
+	@XmlElement
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+	public String getProovedores() {
+		return proovedores;
+	}
+	@XmlElement
+	public void setProovedores(String proovedores) {
+		this.proovedores = proovedores;
+	}
+	public BigDecimal getPrecio() {
+		return Precio;
+	}
+	@XmlElement
+	public void setPrecio(BigDecimal precio) {
+		Precio = precio;
+	}
+	public DtoEquipo getEquipo() {
+		return equipo;
+	}
+	@XmlElement
+	public void setEquipo(DtoEquipo equipo) {
+		this.equipo = equipo;
+	}
+	public DtoUsuario getRegistrado() {
+		return registrado;
+	}
+	@XmlElement
+	public void setRegistrado(DtoUsuario registrado) {
+		this.registrado = registrado;
+	}
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+	@XmlElement
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+	public Date getFechaProximo() {
+		return FechaProximo;
+	}
+	@XmlElement
+	public void setFechaProximo(Date fechaProximo) {
+		FechaProximo = fechaProximo;
+	}
+	public Date getFechaEjecutado() {
+		return fechaEjecutado;
+	}
+	@XmlElement
+	public void setFechaEjecutado(Date fechaEjecutado) {
+		this.fechaEjecutado = fechaEjecutado;
+	}
+}
