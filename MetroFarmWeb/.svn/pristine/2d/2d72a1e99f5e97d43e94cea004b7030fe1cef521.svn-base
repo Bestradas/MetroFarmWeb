@@ -1,0 +1,98 @@
+package co.jankins.test.maeshalunmarshal;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.profile.Profile;
+import co.janker.dto.user.User;
+import co.jankins.psf.common.operations.Operations;
+import co.jankins.psf.common.services.Services;
+
+public class Tests {
+	
+	
+	
+	public static void main(String[] args) {
+		User user=new User();
+		user.setName("Bryan");
+		user.setLastName("lastName");
+		user.setCelphones(new ArrayList<String>(Arrays.asList("3104235427","4012098")));
+		
+		//Object send
+		ObjectSend obj=new ObjectSend();
+		obj.setService(Services.USER_SERVICE);
+		obj.setOperation(Operations.CREATE_USER);
+		obj.setObj(user);
+		
+		
+			OutputStream xmlOutput = new OutputStream() {
+	            private StringBuilder string = new StringBuilder();
+			
+			 @Override
+	            public void write
+	                    (
+	                            int b) throws IOException {
+	                this.string.append((char) b);
+	            }
+	 
+	            @Override
+	            public String toString
+	                    () {
+	                return this.string.toString();
+	            }
+		};
+		
+		try {
+			JAXBContext jc=null;
+			Marshaller m=null;
+			Unmarshaller um=null;
+			
+			//marshall
+			
+			jc=JAXBContext.newInstance(ObjectSend.class,User.class,Profile.class,Services.class,Operations.class,Tests.class);
+			m=jc.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			m.marshal(obj, xmlOutput);
+			xmlOutput.flush();
+            xmlOutput.close();
+            System.out.println(xmlOutput.toString());
+            
+            //unmarshall
+            um=jc.createUnmarshaller();
+            InputStream is = new ByteArrayInputStream( xmlOutput.toString().getBytes() );
+            ObjectSend po = (ObjectSend)um.unmarshal(is);
+            System.out.println(po.getOperation()+" "+po.getService()+" ");
+            User us=(User)po.getObj();
+            System.out.println(us.getName());
+            
+            if(po.getService().equals(Services.USER_SERVICE)){
+            	if(po.getOperation().equals(Operations.CREATE_USER)){
+            		
+            	}
+            }
+            
+            
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			System.out.println();
+		}
+		
+		
+	}
+
+}

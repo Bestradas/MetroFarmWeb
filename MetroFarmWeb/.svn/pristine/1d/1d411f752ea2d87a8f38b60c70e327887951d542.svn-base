@@ -1,0 +1,30 @@
+package co.jankins.doprocess.profileservices;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.jankins.psf.common.operations.Operations;
+import co.jankins.servlet.ProcessService;
+
+public class ProfileServices implements ProcessService{
+
+	@Override
+	public void doProcess(ObjectSend send) {
+		// TODO Auto-generated method stub
+		switch (send.getOperation()) {
+		//CREATE_PROFILE
+		case Operations.CREATE_PROFILE:
+			System.out.println(Operations.CREATE_PROFILE);
+			break;
+		//DELETE_PROFILE	
+		case Operations.DELETE_PROFILE:
+			System.out.println(Operations.DELETE_PROFILE);
+			break;
+		
+
+		default:
+			break;
+		}
+	}
+	
+	
+
+}

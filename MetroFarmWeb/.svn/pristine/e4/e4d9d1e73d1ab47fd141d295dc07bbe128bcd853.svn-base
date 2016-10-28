@@ -1,0 +1,26 @@
+package co.jankins.doprocess.userservices;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.jankins.psf.common.operations.Operations;
+import co.jankins.servlet.ProcessService;
+
+public class UserServices implements ProcessService {
+	
+	public void doProcess(ObjectSend send){
+		switch (send.getOperation()) {
+		//CREATE_USER
+		case Operations.CREATE_USER:
+		System.out.println(Operations.CREATE_USER);	
+			break;
+		//DELETE_USER
+		case Operations.DELETE_USER:
+		System.out.println(Operations.DELETE_USER);		
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
+}

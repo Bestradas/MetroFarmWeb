@@ -1,0 +1,6 @@
+#Datos de servicio processor
+ProcessService = co.com.farmatech.metrofarm.processor.ProcessorService
+
+#Monitor Sincronizacion#
+MonitorSynchronizer.name= SynchronizeEquipment
+MonitorSynchronizer.hora= 06:00:00
