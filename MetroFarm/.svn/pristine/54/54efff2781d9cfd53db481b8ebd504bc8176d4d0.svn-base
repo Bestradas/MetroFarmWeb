@@ -1,0 +1,23 @@
+package co.com.farmatech.metrofarm.dao.maintenance;
+
+import java.sql.Connection;
+
+
+
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+import com.co.farmatech.metrofarm.dto.DtoMantenimiento;
+
+public interface MaintenanceDaoService {
+	
+	public DtoMantenimiento createFirstMaintenance(DtoMantenimiento mantenimiento, Connection con);
+	
+	/**
+	 * 
+	 * @param equipo
+	 * @param con
+	 * @return
+	 */
+	public boolean EquipmentMaintenance(DtoEquipo equipo, Connection con);
+
+
+}

@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>MetroFarm</groupId>
+	<artifactId>MetroFarm</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>MetroFarm</name>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.ktr</include>
+					<include>**/*.png</include>
+					<include>**/*.jasper</include>
+					<include>**/*.jrxml</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>pentaho-releases</id>
+			<url>http://repository.pentaho.org/artifactory/repo/</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>psf-jankins-common</groupId>
+			<artifactId>psf-jankins-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>4.2.0-stable</version>
+		</dependency>
+
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-db</artifactId>
+			<version>4.2.0-stable</version>
+		</dependency>
+
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-engine</artifactId>
+			<version>4.2.0-stable</version>
+		</dependency>
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-ui-swt</artifactId>
+			<version>4.2.0-stable</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-vfs</groupId>
+			<artifactId>commons-vfs</artifactId>
+			<version>20100924-pentaho</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>8.0.20</version>
+		</dependency>
+		
+		<dependency>
+	<groupId>commons-beanutils</groupId>
+	<artifactId>commons-beanutils</artifactId>
+	<version>1.8.2</version>
+</dependency>
+		<dependency>
+	<groupId>commons-collections</groupId>
+	<artifactId>commons-collections</artifactId>
+	<version>3.2.1</version>
+</dependency>
+		<dependency>
+	<groupId>commons-digester</groupId>
+	<artifactId>commons-digester</artifactId>
+	<version>2.1</version>
+</dependency>
+<dependency>
+    <groupId>commons-javaflow</groupId>
+    <artifactId>commons-javaflow</artifactId>
+    <version>20060411</version>
+</dependency>
+<dependency>
+	<groupId>commons-logging</groupId>
+	<artifactId>commons-logging</artifactId>
+	<version>1.1.1</version>
+</dependency>
+<dependency>
+	<groupId>org.codehaus.groovy</groupId>
+	<artifactId>groovy-all</artifactId>
+	<version>1.7.5</version>
+</dependency>
+<dependency>
+	<groupId>com.lowagie</groupId>
+	<artifactId>itext</artifactId>
+	<version>2.1.7</version>
+</dependency>
+<dependency>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports</artifactId>
+	<version>3.7.2</version>
+</dependency>
+<dependency>
+	<groupId>jfree</groupId>
+	<artifactId>jcommon</artifactId>
+	<version>1.0.15</version>
+</dependency>
+<dependency>
+	<groupId>jfree</groupId>
+	<artifactId>jfreechart</artifactId>
+	<version>1.0.12</version>
+</dependency>
+
+		
+
+
+	</dependencies>
+</project>

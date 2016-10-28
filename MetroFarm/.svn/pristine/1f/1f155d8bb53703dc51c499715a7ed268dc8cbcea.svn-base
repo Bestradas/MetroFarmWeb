@@ -1,0 +1,28 @@
+package co.com.farmatech.metrofarm.processor;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.processor.ProcessService;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+import co.jankins.psf.common.services.Services;
+
+public class ProcessorService implements ProcessService{
+
+	@Override
+	public Object doProcess(ObjectSend send) {
+		// TODO Auto-generated method stub
+		switch (send.getService()) {
+		case Services.USER_SERVICE:
+			ProcessService proccesUsers=new UserServices();
+			return proccesUsers.doProcess(send);
+			
+		case Services.PROFILE_SERVICE:
+			ProcessService proccesProfiles=new ProfileServices();
+			return proccesProfiles.doProcess(send);
+			
+		default:
+			break;
+		}
+		throw new JankinsMarshallException("No se ha encontrado el servicio especificado");
+	}
+
+}

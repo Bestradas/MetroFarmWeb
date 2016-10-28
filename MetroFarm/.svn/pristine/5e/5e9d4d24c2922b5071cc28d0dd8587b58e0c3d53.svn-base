@@ -1,0 +1,12 @@
+package co.com.farmatech.metrofarm.bimanager.maintenance;
+
+import com.co.farmatech.metrofarm.dto.DtoMantenimiento;
+
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+
+
+public interface MgrMaintenanceService {
+	
+	public DtoMantenimiento createFirstMaintenance(DtoMantenimiento mantenimiento,DataSourceConnector source);
+
+}

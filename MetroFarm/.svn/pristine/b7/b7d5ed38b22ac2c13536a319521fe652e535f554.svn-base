@@ -1,0 +1,36 @@
+package co.com.farmatech.metrofarm.dao.calification;
+
+import java.sql.Connection;
+
+import com.co.farmatech.metrofarm.dto.DtoCalificacion;
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+import com.co.farmatech.metrofarm.dto.DtoProgramCalificacion;
+
+public interface CalificationDaoService {
+	
+	/**
+	 * 
+	 * @param calification
+	 * @param con
+	 * @return
+	 */
+	public DtoCalificacion createFirstCalification(DtoCalificacion calification, Connection con);
+	
+	/**
+	 * 
+	 * @param equipo
+	 * @param con
+	 * @return
+	 */
+	public boolean EquipmentCalification(DtoEquipo equipo, Connection con);
+	
+	/**
+	 * 
+	 * @param calification
+	 * @param con
+	 * @return
+	 */
+	public boolean programCalification(DtoProgramCalificacion calification, Connection con);
+
+
+}

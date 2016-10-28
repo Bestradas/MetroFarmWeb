@@ -1,0 +1,31 @@
+package co.com.farmatech.metrofarm.processor;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.processor.ProcessService;
+import co.jankins.psf.common.operations.Operations;
+
+public class ProfileServices implements ProcessService{
+
+	@Override
+	public Object doProcess(ObjectSend send) {
+		// TODO Auto-generated method stub
+		switch (send.getOperation()) {
+		//CREATE_PROFILE
+		case Operations.CREATE_PROFILE:
+			System.out.println(Operations.CREATE_PROFILE);
+			break;
+		//DELETE_PROFILE	
+		case Operations.DELETE_PROFILE:
+			System.out.println(Operations.DELETE_PROFILE);
+			break;
+		
+
+		default:
+			break;
+		}
+		return send;
+	}
+	
+	
+
+}

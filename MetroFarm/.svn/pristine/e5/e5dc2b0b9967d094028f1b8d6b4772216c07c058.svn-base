@@ -1,0 +1,17 @@
+package co.com.farmatech.metrofarm.bimanager.calibration;
+
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+
+public interface MgrCalibrationService {
+
+	/**
+	 * 
+	 * @param calibracion
+	 * @param source
+	 * @return
+	 */
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibracion,DataSourceConnector source);
+	
+}

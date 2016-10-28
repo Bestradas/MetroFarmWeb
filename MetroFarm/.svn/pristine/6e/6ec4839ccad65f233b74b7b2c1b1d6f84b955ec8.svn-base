@@ -1,0 +1,457 @@
+package co.com.farmatech.metrofarm.dao.calibration;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+import co.com.farmatech.metrofarm.mapper.CalibrationMapper;
+import co.com.farmatech.metrofarm.mapper.ProviderMapper;
+import co.com.farmatech.metrofarm.properties.AccessMetroFarmProperties;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+import com.co.farmatech.metrofarm.dto.DtoProveedor;
+
+public class CalibrationDaoImpl implements CalibrationDaoService{
+	
+	private Properties sqlProperties = AccessMetroFarmProperties.getInstance().getSQLProperties();
+	CalibrationMapper mapper=new CalibrationMapper();
+	ProviderMapper mapperProvider=new ProviderMapper();
+
+	
+	@Override
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibration,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.save");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calibration.getEquipo().getCodigoInv());
+			p.setString(2,calibration.getDivision());
+			p.setString(3,calibration.getExactitud());
+			p.setString(4,calibration.getValMaximo());
+			p.setString(5,calibration.getValMininmo());
+			p.setString(6,calibration.getRangCalibracion());
+			p.setString(7,calibration.getRangTrabajo());
+			p.setString(8,calibration.getProveedor());
+			p.setDate(9,new Date(calibration.getFechaRegistro().getTime()));
+			p.setDate(10,new Date(calibration.getProximaCalibracion().getTime()));
+			p.setBytes(11,calibration.getArchivo());
+			p.setBigDecimal(12,calibration.getPrecio());
+			p.setLong(13,0);
+			p.setDate(14,null);
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return calibration;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear la calibracion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public boolean EquipmentCalibration(DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("equipment.calibration");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,equipo.getCodigoInv());
+			r= p.executeQuery();
+			if(r.next()){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<DtoCalibracion> findCalibration(DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		List<Object> params=new ArrayList<Object>();
+		String querySql=sqlProperties.getProperty("calibration.select");
+		if(equipo.getCodigoInv()!=null){
+			querySql+=" AND UPPER(E.codigoInventario)=UPPER(?)";
+			params.add(equipo.getCodigoInv());
+		}
+		if(equipo.getCodigoMet()!=null){
+			querySql+=" AND UPPER(E.codigoMetrologia)=UPPER(?)";
+			params.add(equipo.getCodigoMet());
+		}
+		if(equipo.getSerie()!=null){
+			querySql+=" AND UPPER(E.numeroSerie)=UPPER(?)";
+			params.add(equipo.getSerie());
+		}
+		
+		try {
+			p = con.prepareStatement(querySql);
+			for (int i = 0; i < params.size(); i++) {
+				p.setString(i+1,(String)params.get(i));
+			}
+			r= p.executeQuery();
+			return mapper.findCalibrations(r);
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public ArrayList<DtoCalibracion> findCalibration(DtoCalibracion calibration, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		List<Object> params=new ArrayList<Object>();
+		String querySql=sqlProperties.getProperty("calibration.select");
+		if(calibration.getCodigoCalibracion()!=null){
+			querySql+=" AND UPPER(C.codigoCalibracion)=UPPER(?)";
+			params.add(calibration.getCodigoCalibracion());
+		}
+
+		try {
+			p = con.prepareStatement(querySql);
+			for (int i = 0; i < params.size(); i++) {
+				p.setString(i+1,(String)params.get(i));
+			}
+			r= p.executeQuery();
+			return mapper.findCalibrations(r);
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public DtoCalibracion createCalibration(DtoCalibracion calibration,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.save");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calibration.getEquipo().getCodigoInv());
+			p.setString(2,calibration.getDivision());
+			p.setString(3,calibration.getExactitud());
+			p.setString(4,calibration.getValMaximo());
+			p.setString(5,calibration.getValMininmo());
+			p.setString(6,calibration.getRangCalibracion());
+			p.setString(7,calibration.getRangTrabajo());
+			p.setString(8,calibration.getProveedor());
+			p.setDate(9,new Date(calibration.getFechaRegistro().getTime()));
+			p.setDate(10,new Date(calibration.getProximaCalibracion().getTime()));
+			p.setBytes(11,calibration.getArchivo());
+			p.setBigDecimal(12,calibration.getPrecio());
+			p.setLong(13,0);
+			p.setDate(14,null);
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				updateScheduled(calibration,con);
+				return calibration;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear la calibracion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updateScheduled(DtoCalibracion calibrationRegister,Connection con){
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.selectBefore");
+		try {
+			p = con.prepareStatement(querySql);	
+			p.setString(1,calibrationRegister.getEquipo().getCodigoInv());
+			p.setDate(2,new Date(calibrationRegister.getFechaRegistro().getTime()));
+			r= p.executeQuery();
+			ArrayList<DtoCalibracion> calibrationBefores=mapper.findCalibrations(r);
+			if(calibrationBefores!=null && !calibrationBefores.isEmpty()){
+				DtoCalibracion calibrationUpdate=calibrationBefores.get(0);
+				calibrationUpdate.setFechaEjecutada(calibrationRegister.getFechaRegistro());
+				SimpleDateFormat formateador = new SimpleDateFormat("MM/yyyy");
+				if(formateador.format(calibrationUpdate.getFechaEjecutada()).equals(formateador.format(calibrationUpdate.getProximaCalibracion()))){
+					calibrationUpdate.setCumplio(1);
+				}else{
+					calibrationUpdate.setCumplio(0);
+				}
+				DataSourceConnector datasource = DataSourceConnector.getInstance();
+				updateCalibration(calibrationUpdate, datasource.getConexion());
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updateScheduledDelete(DtoCalibracion calibrationRegister,Connection con){
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.selectBefore");
+		try {
+			p = con.prepareStatement(querySql);	
+			p.setString(1,calibrationRegister.getEquipo().getCodigoInv());
+			p.setDate(2,new Date(calibrationRegister.getFechaRegistro().getTime()));
+			r= p.executeQuery();
+			ArrayList<DtoCalibracion> calibrationBefores=mapper.findCalibrations(r);
+			if(calibrationBefores!=null && !calibrationBefores.isEmpty()){
+				DtoCalibracion calibrationUpdate=calibrationBefores.get(0);
+				calibrationUpdate.setFechaEjecutada(null);
+				calibrationUpdate.setCumplio(0);
+
+				DataSourceConnector datasource = DataSourceConnector.getInstance();
+				updateCalibration(calibrationUpdate, datasource.getConexion());
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public DtoCalibracion updateCalibration(DtoCalibracion calibration,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		String querySql=sqlProperties.getProperty("calibration.update");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calibration.getDivision());
+			p.setString(2,calibration.getExactitud());
+			p.setString(3,calibration.getValMaximo());
+			p.setString(4,calibration.getValMininmo());
+			p.setString(5,calibration.getRangCalibracion());
+			p.setString(6,calibration.getRangTrabajo());
+			p.setString(7,calibration.getProveedor());
+			p.setBytes(8,calibration.getArchivo());
+			p.setBigDecimal(9,calibration.getPrecio());
+			p.setLong(10,calibration.getCumplio());
+			p.setDate(11,calibration.getFechaEjecutada()!=null?new Date(calibration.getFechaEjecutada().getTime()):null);
+			p.setString(12,calibration.getCodigoCalibracion());
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return calibration;
+			}else{
+				throw new JankinsMarshallException("No se pudo actualizar la calibracion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public ArrayList<DtoCalibracion> findCalibrationMonthScheduled(
+			DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		List<Object> params=new ArrayList<Object>();
+		String querySql=sqlProperties.getProperty("calibration.select");
+
+		querySql+=" AND DATEDIFF(MONTH,DATEADD(MONTH, DATEDIFF(MONTH, 0, C.ProximaCalibracion), 0),GETDATE())=0 AND C.fechaEjecutada is null";
+		
+		try {
+			p = con.prepareStatement(querySql);
+			r= p.executeQuery();
+			return mapper.findCalibrations(r);
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public ArrayList<DtoCalibracion> findCalibrationMonthExpired(
+			DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		List<Object> params=new ArrayList<Object>();
+		String querySql=sqlProperties.getProperty("calibration.select");
+		
+		querySql+=" AND DATEDIFF(MONTH,DATEADD(MONTH, DATEDIFF(MONTH, 0, C.ProximaCalibracion), 0),GETDATE())>0 AND C.fechaEjecutada is null";
+		
+		try {
+			p = con.prepareStatement(querySql);
+			r= p.executeQuery();
+			return mapper.findCalibrations(r);
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public ArrayList<DtoProveedor> getProviders(DtoProveedor equipo,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		List<Object> params=new ArrayList<Object>();
+		String querySql=sqlProperties.getProperty("provider.select");
+		try {
+			p = con.prepareStatement(querySql);
+			r= p.executeQuery();
+			return mapperProvider.findProviders(r);
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public DtoCalibracion deleteCalibration(DtoCalibracion calibration,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.delete");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calibration.getCodigoCalibracion());
+
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				updateScheduledDelete(calibration,con);
+				return calibration;
+			}else{
+				throw new JankinsMarshallException("No se pudo eliminar la calibracion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
+}

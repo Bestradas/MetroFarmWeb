@@ -1,0 +1,51 @@
+package co.com.farmatech.metrofarm.processor;
+
+import java.util.ArrayList;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+import com.co.farmatech.metrofarm.dto.DtoCalificacion;
+
+import co.com.farmatech.metrofarm.bimanager.calification.MgrCalificationImpl;
+import co.com.farmatech.metrofarm.bimanager.calification.MgrCalificationService;
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.processor.ProcessService;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+import co.jankins.psf.common.operations.Operations;
+
+public class CalificationService implements ProcessService{
+	
+	MgrCalificationService mgrCalification=new MgrCalificationImpl();
+	
+	@Override
+	public Object doProcess(ObjectSend send) {
+		// TODO Auto-generated method stub
+		switch (send.getOperation()) {
+		//FIND_EQUIPMENT
+		case Operations.CREATE_FIRST_CALIFICATION:
+			return createFirstCalification((DtoCalificacion)send.getObj());
+
+		default:
+			break;
+		}
+		return send.getObj()!=null?send.getObj():send.getRecords();
+	}
+	
+	public DtoCalificacion createFirstCalification(DtoCalificacion calificacion){
+		DtoCalificacion califitionResponse = null;
+		DataSourceConnector datasource = DataSourceConnector.getInstance();
+
+		try {
+			califitionResponse=mgrCalification.createFirstCalification(calificacion, datasource);
+		} catch (Exception e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			
+		}
+
+		return califitionResponse;
+	}
+	
+	
+
+}

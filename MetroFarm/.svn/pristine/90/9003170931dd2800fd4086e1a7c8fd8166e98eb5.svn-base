@@ -1,0 +1,21 @@
+package co.com.farmatech.metrofarm.bimanager.calification;
+
+import java.util.ArrayList;
+
+import com.co.farmatech.metrofarm.dto.DtoCalificacion;
+
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+
+
+public interface MgrCalificationService {
+	
+	/**
+	 * 
+	 * @param calificacion
+	 * @param source
+	 * @return
+	 */
+	public DtoCalificacion createFirstCalification(DtoCalificacion calificacion,DataSourceConnector source);
+	
+
+}

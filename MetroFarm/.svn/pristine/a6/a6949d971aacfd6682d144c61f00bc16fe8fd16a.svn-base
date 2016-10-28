@@ -1,0 +1,122 @@
+package co.com.farmatech.metrofarm.dao.calification;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import co.com.farmatech.metrofarm.properties.AccessMetroFarmProperties;
+import co.jankins.psf.common.enums.Frecuencias;
+import co.jankins.psf.common.enums.TipoCalificacion;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+
+import com.co.farmatech.metrofarm.dto.DtoCalificacion;
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+import com.co.farmatech.metrofarm.dto.DtoProgramCalificacion;
+
+public class CalificationDaoImpl implements CalificationDaoService{
+	
+	private Properties sqlProperties = AccessMetroFarmProperties.getInstance().getSQLProperties();
+
+	
+	@Override
+	public DtoCalificacion createFirstCalification(DtoCalificacion calification, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("califiation.save");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calification.getEquipo().getCodigoInv());
+			p.setBytes(2,calification.getFileDiseno());
+			p.setBytes(3,calification.getFileInstalacion());
+			p.setBytes(4,calification.getFileOperacion());
+			p.setBytes(5,calification.getFiledesempeno());
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return calification;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear la calificacion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public boolean EquipmentCalification(DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("equipment.califiation");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,equipo.getCodigoInv());
+			r= p.executeQuery();
+			if(r.next()){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public boolean programCalification(DtoProgramCalificacion calificationProg, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("califiation.program");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calificationProg.getEquipo().getCodigoInv());
+			p.setLong(2,calificationProg.getTipoCalificacion());
+			p.setDate(3,new java.sql.Date(calificationProg.getFechaRegistro().getTime()));
+			p.setDate(4,new java.sql.Date(calificationProg.getFechaProxima().getTime()));
+			p.setInt(5,calificationProg.getCumplimiento());
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return true;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear la calificacion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

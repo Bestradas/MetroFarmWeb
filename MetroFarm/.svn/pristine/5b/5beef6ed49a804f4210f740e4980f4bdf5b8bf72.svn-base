@@ -1,0 +1,27 @@
+package co.com.farmatech.metrofarm.dao.calibration;
+
+import java.sql.Connection;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+
+
+public interface CalibrationDaoService {
+	
+	/**
+	 * 
+	 * @param calibration
+	 * @param con
+	 * @return
+	 */
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibration, Connection con);
+	
+	/**
+	 * 
+	 * @param equipo
+	 * @param con
+	 * @return
+	 */
+	public boolean EquipmentCalibration(DtoEquipo equipo, Connection con);
+
+}

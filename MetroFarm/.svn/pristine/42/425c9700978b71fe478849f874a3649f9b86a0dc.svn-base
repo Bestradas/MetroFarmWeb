@@ -1,0 +1,104 @@
+package co.com.farmatech.metrofarm.dao.maintenance;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import co.com.farmatech.metrofarm.properties.AccessMetroFarmProperties;
+import co.jankins.psf.common.enums.TipoEquipo;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+import com.co.farmatech.metrofarm.dto.DtoMantenimiento;
+
+public class MaintenanceDaoImpl implements MaintenanceDaoService{
+	
+	private Properties sqlProperties = AccessMetroFarmProperties.getInstance().getSQLProperties();
+
+	
+	@Override
+	public DtoMantenimiento createFirstMaintenance(
+			DtoMantenimiento mantenimiento, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql="";
+		if(mantenimiento.getEquipo().getTipo().equals(TipoEquipo.EQUIPO.getCode())){
+			querySql=sqlProperties.getProperty("maintenanceEquipment.save");
+		}else{
+			querySql=sqlProperties.getProperty("maintenanceInstrument.save");
+		}	
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,mantenimiento.getEquipo().getCodigoInv());
+			p.setLong(2,mantenimiento.getTipoMant());
+			p.setString(3,mantenimiento.getResponsable());
+			p.setString(4,mantenimiento.getRecibido());
+			p.setString(5,mantenimiento.getRegistrado().getCodigo());
+			p.setString(6,mantenimiento.getAnomalias());
+			p.setString(7,mantenimiento.getLabores());
+			p.setString(8,mantenimiento.getObservaciones());
+			p.setString(9,mantenimiento.getProovedores());
+			p.setDate(10,new Date(mantenimiento.getFechaRegistro().getTime()));
+			p.setDate(11,new Date(mantenimiento.getFechaProximo().getTime()));
+			p.setBigDecimal(12,mantenimiento.getPrecio());
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return mantenimiento;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear el mantenimiento");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public boolean EquipmentMaintenance(DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql="";
+		if(equipo.getTipo().equals(TipoEquipo.INSTRUMENTO.getCode())){
+			querySql=sqlProperties.getProperty("equipment.maintenanceInstrument");
+		}else{
+			querySql=sqlProperties.getProperty("equipment.maintenanceEquipment");
+		}	
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,equipo.getCodigoInv());
+			r= p.executeQuery();
+			if(r.next()){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

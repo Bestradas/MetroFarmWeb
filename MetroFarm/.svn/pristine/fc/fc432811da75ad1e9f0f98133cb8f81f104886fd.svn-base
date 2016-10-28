@@ -1,0 +1,94 @@
+package co.com.farmatech.metrofarm.dao.calibration;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import co.com.farmatech.metrofarm.properties.AccessMetroFarmProperties;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+import com.co.farmatech.metrofarm.dto.DtoEquipo;
+
+public class CalibrationDaoImpl implements CalibrationDaoService{
+	
+	private Properties sqlProperties = AccessMetroFarmProperties.getInstance().getSQLProperties();
+
+	
+	@Override
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibration,
+			Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		String querySql=sqlProperties.getProperty("calibration.save");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,calibration.getEquipo().getCodigoInv());
+			p.setString(2,calibration.getDivision());
+			p.setString(3,calibration.getExactitud());
+			p.setString(4,calibration.getValMaximo());
+			p.setString(5,calibration.getValMininmo());
+			p.setString(6,calibration.getRangCalibracion());
+			p.setString(7,calibration.getRangTrabajo());
+			p.setString(8,calibration.getProveedor().getNombre());
+			p.setDate(9,new Date(calibration.getFechaRegistro().getTime()));
+			p.setDate(10,new Date(calibration.getProximaCalibracion().getTime()));
+			p.setBytes(11,calibration.getArchivo());
+			p.setBigDecimal(12,calibration.getPrecio());
+			int rowAfect = p.executeUpdate();
+			if(rowAfect>0){
+				return calibration;
+			}else{
+				throw new JankinsMarshallException("No se pudo crear la calibracion");
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public boolean EquipmentCalibration(DtoEquipo equipo, Connection con) {
+		// TODO Auto-generated method stub
+		PreparedStatement p = null;
+		ResultSet r;
+		//ProximaCalibracion,documentoCalibracion,precioCalibracion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+		String querySql=sqlProperties.getProperty("equipment.calibration");
+		try {
+			p = con.prepareStatement(querySql);
+			p.setString(1,equipo.getCodigoInv());
+			r= p.executeQuery();
+			if(r.next()){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+			try {
+				p.close();
+				if(!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

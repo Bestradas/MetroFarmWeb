@@ -1,0 +1,27 @@
+package co.com.farmatech.metrofarm.processor;
+
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.processor.ProcessService;
+import co.jankins.psf.common.operations.Operations;
+
+public class UserServices implements ProcessService {
+	
+	public Object doProcess(ObjectSend send){
+		switch (send.getOperation()) {
+		//CREATE_USER
+		case Operations.CREATE_USER:
+		System.out.println(Operations.CREATE_USER);	
+			break;
+		//DELETE_USER
+		case Operations.DELETE_USER:
+		System.out.println(Operations.DELETE_USER);		
+			break;
+
+		default:
+			break;
+		}
+		return send.getObj()!=null?send.getObj():send.getRecords();
+		
+	}
+
+}

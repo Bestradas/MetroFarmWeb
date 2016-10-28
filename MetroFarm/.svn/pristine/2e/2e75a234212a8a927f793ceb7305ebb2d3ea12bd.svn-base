@@ -1,0 +1,45 @@
+package co.com.farmatech.metrofarm.processor;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+
+import co.com.farmatech.metrofarm.bimanager.calibration.MgrCalibrationImpl;
+import co.com.farmatech.metrofarm.bimanager.calibration.MgrCalibrationService;
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+import co.janker.dto.objsend.ObjectSend;
+import co.janker.dto.processor.ProcessService;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+import co.jankins.psf.common.operations.Operations;
+
+public class CalibrationService implements ProcessService{
+
+	MgrCalibrationService mgrCalibration=new MgrCalibrationImpl();
+	
+	@Override
+	public Object doProcess(ObjectSend send) {
+		// TODO Auto-generated method stub
+		switch (send.getOperation()) {
+		//FIND_EQUIPMENT
+		case Operations.CREATE_FIRST_CALIBRATION:
+			return createFirstCalibration((DtoCalibracion)send.getObj());
+
+		default:
+			break;
+		}
+		return send.getObj()!=null?send.getObj():send.getRecords();
+	}
+	
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibracion){
+		DtoCalibracion calibrationResponse = null;
+		DataSourceConnector datasource = DataSourceConnector.getInstance();
+
+		try {
+			calibrationResponse=mgrCalibration.createFirstCalibration(calibracion, datasource);
+		} catch (Exception e) {
+			throw new JankinsMarshallException(e);
+		}finally{
+		}
+
+		return calibrationResponse;
+	}
+	
+}

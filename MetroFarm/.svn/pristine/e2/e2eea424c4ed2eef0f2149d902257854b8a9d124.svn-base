@@ -1,0 +1,27 @@
+package co.com.farmatech.metrofarm.bimanager.calibration;
+
+import co.com.farmatech.metrofarm.dao.calibration.CalibrationDaoImpl;
+import co.com.farmatech.metrofarm.dao.calibration.CalibrationDaoService;
+import co.com.farmatech.metrofarm.datasource.DataSourceConnector;
+import co.jankins.psf.common.exception.JankinsMarshallException;
+import co.jankins.psf.common.metrofarm.exception.JankerExceptionEnum;
+
+import com.co.farmatech.metrofarm.dto.DtoCalibracion;
+
+public class MgrCalibrationImpl implements MgrCalibrationService{
+	
+	CalibrationDaoService calibrationDao=new CalibrationDaoImpl();
+	
+	@Override
+	public DtoCalibracion createFirstCalibration(DtoCalibracion calibracion,
+			DataSourceConnector source) {
+		// TODO Auto-generated method stub
+		if(!calibrationDao.EquipmentCalibration(calibracion.getEquipo(), source.getConexion())){
+			return calibrationDao.createFirstCalibration(calibracion, source.getConexion());
+		}else{
+			throw new JankinsMarshallException(JankerExceptionEnum.E_50000.getDescription(),JankerExceptionEnum.E_50000.getValue());
+		}
+		
+	}
+	
+}
